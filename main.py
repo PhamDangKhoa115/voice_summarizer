@@ -1,39 +1,24 @@
-import queue
 import numpy as np
 import sounddevice as sd
-import torch
-import warnings
-import math
-from scipy.signal import resample_poly
-from transformers import pipeline
-import transformers
 import soundfile as sf
 from noise_reduction import process
+import os
+import queue
+import numpy as np
+import math
+from scipy.signal import resample_poly
+from transcriber import transcriber
+from dotenv import load_dotenv
+load_dotenv()
 
-warnings.filterwarnings("ignore")
-transformers.logging.set_verbosity_error()
-
-MODEL_DIR = "phowhisper_local_model"
-SAMPLE_RATE = 48000       # ← native mic rate
-TARGET_RATE = 16000       # ← Silero + model cần
-CHUNK_DURATION = 0.5
-MAX_SILENCE_DURATION = 1.5
-SENSITIVITY = 1.2
-DEBUG = True
-
-device = "cuda:0" if torch.cuda.is_available() else "cpu"
-print(f"⏳ Đang nạp động cơ lên {device}...")
-
-transcriber = pipeline(
-    "automatic-speech-recognition",
-    model=MODEL_DIR,
-    tokenizer=MODEL_DIR,
-    device=device,
-    chunk_length_s=50,
-    generate_kwargs={"num_beams": 5}
-)
-
+SAMPLE_RATE = int(os.getenv("SAMPLE_RATE"))
+SENSITIVITY = float(os.getenv("SENSITIVITY"))
+MAX_SILENCE_DURATION = float(os.getenv("MAX_SILENCE_DURATION"))
+CHUNK_DURATION = float(os.getenv("CHUNK_DURATION"))
+TARGET_RATE = int(os.getenv("TARGET_RATE"))
+DEBUG = os.getenv("DEBUG")
 audio_queue = queue.Queue()
+
 
 def audio_callback(indata, frames, time, status):
     audio_queue.put(indata.copy())
@@ -67,14 +52,14 @@ def main():
     is_recording = False
     audio_buffer = []
     silence_chunks = 0
-    max_silence_chunks = int(MAX_SILENCE_DURATION / CHUNK_DURATION)
+    max_silence_chunks = int(float(MAX_SILENCE_DURATION) / float(CHUNK_DURATION))
 
     with sd.InputStream(
-        samplerate=SAMPLE_RATE,
+        samplerate=float(SAMPLE_RATE),
         channels=1,
         dtype='float32',
         callback=audio_callback,
-        blocksize=int(SAMPLE_RATE * CHUNK_DURATION)
+        blocksize=int(float(SAMPLE_RATE) * float(CHUNK_DURATION))
     ):
         while True:
             chunk = audio_queue.get()
