@@ -1,0 +1,34 @@
+from audio_process import audio_controller
+from obj_indices import bucket_parser, hash_generator
+from dotenv import load_dotenv
+import os
+
+load_dotenv(".env")
+
+file_name = "filtered_signal.wav"
+bucket = os.getenv("BUCKET_NAME")
+client = os.getenv("CLIENT")
+raw_bucket_folder = os.getenv("RAW_BUCKET_FOLDER")
+table = os.getenv("TABLE_NAME")
+
+obj_id = hash_generator.hash_key()
+object_name = f"{raw_bucket_folder}/{obj_id}"
+transcript_obj = hash_generator.hash_key()
+
+raw_controller = audio_controller.raw_audio(file_name, bucket, client, object_name, content_type='audio/mpeg')
+
+mapper = bucket_parser.HashTable(
+    size=16,
+    bucket=bucket,
+    key=f"{table}.json"
+)
+mapper.insert(obj_id, transcript_obj)
+
+raw_controller.pushing_to_bucket()
+
+res = raw_controller.GetAll_bucket_fileid(f"{raw_bucket_folder}/")
+print(res)
+print("..................")
+print(mapper.table)
+for k in res:
+    print(mapper.get(k))
