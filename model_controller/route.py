@@ -112,6 +112,4 @@ def route_and_search(question: str, raw_id, text_id=None) -> dict | None:
         case RetrievalStrategy.COMPREHENSIVE:
             return vectors.search_comprehensive(
                 question, raw_id, text_id,
-                top_k=30,
-                final_k=15,
             )

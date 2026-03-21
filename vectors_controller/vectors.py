@@ -68,7 +68,7 @@ def ingest_document(raw_id, text_id, text: str):
     }
 
 
-def search_comprehensive( question: str, raw_id, text_id=None, top_k: int = 30, final_k: int = 15, distance_threshold: float = 0.7,) -> dict:
+def search_comprehensive( question: str, raw_id, text_id=None, top_k: int = 50, final_k: int = 25, distance_threshold: float = 0.7,) -> dict:
 
     raw_id = str(raw_id)
     filters = [{"raw_id": {"$eq": raw_id}}]
@@ -126,7 +126,7 @@ def search_comprehensive( question: str, raw_id, text_id=None, top_k: int = 30, 
         "vectors": ranked_vectors,
     }
 
-def search_with_filter(question: str, raw_id, text_id, top_k: int = 3):
+def search_with_filter(question: str, raw_id, text_id, top_k: int = 5):
         
         raw_id = str(raw_id)
         filters = [{"raw_id": {"$eq": raw_id}}]
