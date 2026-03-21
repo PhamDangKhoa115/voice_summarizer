@@ -7,8 +7,7 @@ import time
 
 load_dotenv(".env")
 
-file_name = "meeting.wav"
-
+file_name = "audio/meeting.wav"
 bucket = os.getenv("BUCKET_NAME")
 client = os.getenv("CLIENT")
 raw_bucket_folder = os.getenv("RAW_BUCKET_FOLDER")
