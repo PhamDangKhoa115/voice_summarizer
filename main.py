@@ -17,14 +17,14 @@ table           = os.getenv("TABLE_NAME")
 
 if __name__ == "__main__":
 
-    # upload file and push to vect
-    meta    = audio2text.voice_transcript(file_name, bucket, client, raw_bucket_folder, table)
-    raw_id  = meta["raw_id"]
-    text_id = meta["text_id"]
-    uri     = check_status.wait_for_transcription(text_id, interval_seconds=20, timeout_seconds=3600)
-    text2vect.vect_push(raw_id=raw_id, text_id=text_id)
+    # # upload file and push to vect
+    # meta    = audio2text.voice_transcript(file_name, bucket, client, raw_bucket_folder, table)
+    # raw_id  = meta["raw_id"]
+    # text_id = meta["text_id"]
+    # uri     = check_status.wait_for_transcription(text_id, interval_seconds=20, timeout_seconds=3600)
+    # text2vect.vect_push(raw_id=raw_id, text_id=text_id)
 
-    # raw_id = "0c961fd3ecde59d8b01fa0ff2c57d7665d11460b22656ac140fe03060e8633b9"
+    raw_id = "0c961fd3ecde59d8b01fa0ff2c57d7665d11460b22656ac140fe03060e8633b9"
 
     memory = mem_module.Memory(raw_id=raw_id)
 
