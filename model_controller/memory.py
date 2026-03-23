@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from collections import deque
-from . import route 
+from . import router 
 from . import model_caller
 from dotenv import load_dotenv
 import os
@@ -65,7 +65,7 @@ def _extract_and_update_summary(memory: Memory, raw_answer: str) -> str:
     return clean_answer
 
 def chat(memory: Memory, question: str) -> str:
-    search_result = route.route_and_search(question, memory.raw_id, memory.text_id)
+    search_result = router.route_and_search(question, memory.raw_id, memory.text_id)
     chunks = search_result.get("vectors", []) if search_result else []
     doc_context = "\n\n".join(
         c.get("metadata", {}).get("source_text", "") for c in chunks
