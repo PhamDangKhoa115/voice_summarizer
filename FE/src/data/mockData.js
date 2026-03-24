@@ -1,0 +1,72 @@
+export const recordings = [
+  {
+    id: 1,
+    title: "Quarterly Strategy Session",
+    desc: "Discussed Q3 targets and resource allocation...",
+    date: "March 12, 2024",
+    time: "42:15",
+    participants: 3,
+    status: "READY",
+  },
+  {
+    id: 2,
+    title: "User Interview #102",
+    desc: "User feedback on new dashboard features...",
+    date: "March 18, 2024",
+    time: "18:04",
+    participants: 2,
+    status: "READY",
+  },
+  {
+    id: 3,
+    title: "Team Standup Meeting",
+    desc: "Daily progress updates and blockers...",
+    date: "March 20, 2024",
+    time: "15:32",
+    participants: 4,
+    status: "READY",
+  },
+  {
+    id: 4,
+    title: "Client Discovery Call",
+    desc: "Initial consultation with new enterprise client...",
+    date: "March 21, 2024",
+    time: "35:20",
+    participants: 2,
+    status: "READY",
+  },
+  {
+    id: 5,
+    title: "Product Roadmap Review",
+    desc: "Planning next release priorities and feature scope...",
+    date: "March 24, 2024",
+    time: "29:40",
+    participants: 5,
+    status: "READY",
+  },
+];
+
+export const messages = [
+  {
+    id: 1,
+    side: "left",
+    speaker: "Speaker A",
+    time: "00:01",
+    text: "Good morning everyone. Let's dive right into the Q3 results. We've seen a significant uptick in our audio processing efficiency since the last patch.",
+  },
+  {
+    id: 2,
+    side: "right",
+    speaker: "Speaker B",
+    time: "00:04",
+    text: "We are currently at 85% completion. The core engine is stabilized, but we're still refining the tonal depth rendering on the UI side.",
+  },
+  {
+    id: 3,
+    side: "left",
+    speaker: "Speaker A",
+    time: "00:09",
+    text: "That sounds promising. I need a full summary of the glassmorphism components by Friday.",
+    tag: "ACTION ITEM",
+  },
+];
