@@ -4,6 +4,7 @@ from model_controller import memory as mem_module
 from obj_indices import bucket_parser
 from retrieval_repare import audio2text, text2vect
 from vectors_controller import check_status
+import json
 
 load_dotenv(".env")
 
@@ -26,18 +27,26 @@ if __name__ == "__main__":
     # print(raw_id)
 
     raw_id = "b24a7205b8c5f1b0a232d8fb651cf9a2d1e4c89c6752c238e351a4ab2fc15568"
-
     memory = mem_module.Memory(raw_id=raw_id)
-
+    lst = []
     print("Nhập 'exit' để thoát.\n")
     while True:
+        pair_chat = {}
         question = input("Bạn: ").strip()
         if not question or question.lower() == "exit":
             break
-
+        pair_chat["question"] = question
         answer = mem_module.chat(memory, question)
+        pair_chat["answer"] = answer
+        lst.append(pair_chat)
+        chat_history = {
+            "raw_id" : raw_id,
+            "chat" : lst
+        }
         print(f"\nTrợ lý: {answer}\n")
 
+    chat_his = json.dumps(chat_history, ensure_ascii=False, indent=2)
+    print(chat_his)
 
 #Phần này để mai t gói vào 1 hàm khác nha.
 
