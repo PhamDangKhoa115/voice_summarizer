@@ -5,7 +5,7 @@ import AppSidebar from "../components/AppSidebar";
 import UserMenu from "../components/UserMenu";
 import { getAuthToken } from "../utils/auth";
 
-const API_BASE = "https://39k9qcfkh3.execute-api.ap-southeast-2.amazonaws.com";
+const API_BASE = "https://1hf3sfyu6g.execute-api.ap-southeast-2.amazonaws.com/";
 
 function formatDuration(seconds) {
   if (seconds == null || Number.isNaN(seconds)) return "--:--";
@@ -245,38 +245,50 @@ export default function LibraryPage() {
       setActionLoading((prev) => ({ ...prev, [recordingId]: false }));
     }
   };
-
-  const handleDeleteRecording = async (recordingId) => {
-    const confirmed = window.confirm(
-      "Bạn có chắc muốn xóa recording này không?",
+  const confirmDelete = (onConfirm) => {
+    window.__toast?.(
+      <div className="flex items-center gap-3">
+        <span>Bạn có chắc muốn xóa?</span>
+        <button
+          onClick={onConfirm}
+          className="rounded-md bg-red-600 px-2 py-1 text-xs text-white hover:bg-red-700"
+        >
+          Xóa
+        </button>
+      </div>,
+      "warning",
+      { duration: 5000 },
     );
-    if (!confirmed) return;
-
-    setActionLoading((prev) => ({ ...prev, [recordingId]: true }));
-
-    try {
-      await fetchTextOrJson(`${API_BASE}/api/recordings/${recordingId}`, {
-        method: "DELETE",
-      });
-
-      setItems((prev) =>
-        prev.filter((item) => item.recordingId !== recordingId),
-      );
-
-      const saved = JSON.parse(localStorage.getItem("recordings") || "[]");
-      const updated = saved.filter((item) => item.recordingId !== recordingId);
-      localStorage.setItem("recordings", JSON.stringify(updated));
-      window.dispatchEvent(new Event("recordings-updated"));
-
-      window.__toast?.("Đã xóa recording", "success");
-    } catch (err) {
-      console.error(err);
-      window.__toast?.(err.message || "Delete thất bại", "error");
-    } finally {
-      setActionLoading((prev) => ({ ...prev, [recordingId]: false }));
-    }
   };
+  const handleDeleteRecording = async (recordingId) => {
+    confirmDelete(async () => {
+      setActionLoading((prev) => ({ ...prev, [recordingId]: true }));
 
+      try {
+        await fetchTextOrJson(`${API_BASE}/api/recordings/${recordingId}`, {
+          method: "DELETE",
+        });
+
+        setItems((prev) =>
+          prev.filter((item) => item.recordingId !== recordingId),
+        );
+
+        const saved = JSON.parse(localStorage.getItem("recordings") || "[]");
+        const updated = saved.filter(
+          (item) => item.recordingId !== recordingId,
+        );
+        localStorage.setItem("recordings", JSON.stringify(updated));
+        window.dispatchEvent(new Event("recordings-updated"));
+
+        window.__toast?.("Đã xóa recording", "success");
+      } catch (err) {
+        console.error(err);
+        window.__toast?.(err.message || "Delete thất bại", "error");
+      } finally {
+        setActionLoading((prev) => ({ ...prev, [recordingId]: false }));
+      }
+    });
+  };
   return (
     <div className="min-h-screen bg-[#f6f7fb] md:grid md:grid-cols-[250px_1fr]">
       <AppSidebar />
@@ -285,10 +297,10 @@ export default function LibraryPage() {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex items-start justify-between gap-4">
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">
+              <h1 className="text-2xl font-bold text-slate-900 md:text-3xl">
                 Library
               </h1>
-              <p className="mt-3 text-lg text-slate-500">
+              <p className="mt-2 text-sm text-slate-500">
                 Your collection of recorded meetings and insights.
               </p>
             </div>
@@ -328,7 +340,7 @@ export default function LibraryPage() {
 
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-3">
-                            <h3 className="truncate text-xl font-extrabold text-slate-900 md:text-2xl">
+                            <h3 className="truncate text-base font-semibold text-slate-900 md:text-lg">
                               {item.title}
                             </h3>
 
@@ -341,7 +353,7 @@ export default function LibraryPage() {
                             </span>
                           </div>
 
-                          <p className="mt-2 line-clamp-1 text-base text-slate-500 md:text-lg">
+                          <p className="mt-1 line-clamp-1 text-sm text-slate-500">
                             {item.summaryShort}
                           </p>
 

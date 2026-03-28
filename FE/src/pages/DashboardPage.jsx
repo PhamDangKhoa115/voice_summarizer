@@ -4,7 +4,7 @@ import AppSidebar from "../components/AppSidebar";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuthToken } from "../utils/auth";
 import { getCurrentUser } from "aws-amplify/auth";
-const API_BASE = "https://39k9qcfkh3.execute-api.ap-southeast-2.amazonaws.com";
+const API_BASE = "https://1hf3sfyu6g.execute-api.ap-southeast-2.amazonaws.com/";
 
 export default function DashboardPage() {
   const fileInputRef = useRef(null);
@@ -289,7 +289,7 @@ export default function DashboardPage() {
           <UserMenu />
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="flex flex-col gap-6">
           <div className="space-y-6">
             <div className="mb-4 inline-flex rounded-full bg-indigo-50 px-4 py-2 text-[11px] font-extrabold tracking-[0.12em] text-indigo-600">
               ENGINE READY TO ANALYZE
