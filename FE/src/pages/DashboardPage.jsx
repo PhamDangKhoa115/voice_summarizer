@@ -6,7 +6,8 @@ import { getAuthToken } from "../utils/auth";
 import { getCurrentUser } from "aws-amplify/auth";
 
 import PageTransition from "../components/PageTransition";
-const API_BASE = "https://1hf3sfyu6g.execute-api.ap-southeast-2.amazonaws.com/";
+const API_BASE =
+  "http://voicesummarizer-1167047568.ap-southeast-2.elb.amazonaws.com";
 
 export default function DashboardPage() {
   const fileInputRef = useRef(null);
