@@ -507,8 +507,8 @@ export default function DashboardPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
             <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl">
               <div className="flex items-start gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-                  <i className="bi bi-exclamation-triangle-fill text-2xl" />
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100 shadow-inner">
+                  <i className="bi bi-exclamation-triangle-fill text-[34px] text-yellow-500 animate-pulse" />
                 </div>
 
                 <div>
